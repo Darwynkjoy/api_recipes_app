@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:api_recipies_app/Recipes.dart';
 import 'package:api_recipies_app/data_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart'as http;
@@ -9,7 +9,7 @@ class Firstpage extends StatefulWidget{
   State<Firstpage> createState()=> _firstpageState();
 }
 class _firstpageState extends State<Firstpage>{
-  bool? _isloading=true;
+  bool _isloading=true;
   @override
 
   void initState(){
@@ -33,7 +33,7 @@ class _firstpageState extends State<Firstpage>{
       debugPrint(e.toString());
     }
   }
-
+  @override
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
@@ -50,12 +50,45 @@ class _firstpageState extends State<Firstpage>{
       const Center(
         child: Text("Failed To Load Data"),
       )
+
       :GridView.builder(gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,mainAxisSpacing: 2,crossAxisSpacing: 2),
       itemCount: dataFromAPI!.recipes.length,
       itemBuilder: (context,index){
-        return Container(
-          height: 300,
-          width: 300,
+        final Recipe=dataFromAPI!.recipes[index];
+        return GestureDetector(
+          onTap: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>Pagerecipes(recipes: Recipe)));
+          },
+          child: Container(
+            height: 300,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: Colors.black,
+            width: 2),
+            boxShadow: [
+              BoxShadow(
+                color: const Color.fromARGB(255, 196, 196, 196),
+                blurRadius: 0,
+                spreadRadius: 1,
+              )
+            ]),
+            margin: EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(8.0),
+            child: Column(mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.network(Recipe.image,width: 100,height: 65,),
+              SizedBox(height: 10,),
+              Text(Recipe.name,style: TextStyle(fontSize: 10,),),
+
+              Row(
+                children: [
+                  SizedBox(width: 30,),
+                  Text(Recipe.cuisine),
+                  SizedBox(width: 5,)
+              ],
+            )
+            ],
+            ),
+          ),
         );
       })
     );
