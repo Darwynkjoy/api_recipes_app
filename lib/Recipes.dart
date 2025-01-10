@@ -24,8 +24,8 @@ class Pagerecipes extends StatelessWidget{
           children: [
             Center(
               child: Container(
-                height: 380,
-                width: 380,
+                height: 320,
+                width: 320,
                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(15),
                 border: Border.all(width: 3,color: const Color.fromARGB(255, 0, 140, 255)),
                 image: DecorationImage(image: NetworkImage(recipes.image))),
